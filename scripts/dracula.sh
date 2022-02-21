@@ -12,6 +12,7 @@ main()
   # set configuration option variables
   show_fahrenheit=$(get_tmux_option "@dracula-show-fahrenheit" true)
   show_location=$(get_tmux_option "@dracula-show-location" true)
+  fixed_location=$(get_tmux_option "@dracula-fixed-location")
   show_powerline=$(get_tmux_option "@dracula-show-powerline" false)
   show_flags=$(get_tmux_option "@dracula-show-flags" false)
   show_left_icon=$(get_tmux_option "@dracula-show-left-icon" session)
@@ -68,7 +69,7 @@ main()
 
   # start weather script in background
   if [[ "${plugins[@]}" =~ "weather" ]]; then
-    $current_dir/sleep_weather.sh $show_fahrenheit $show_location &
+    $current_dir/sleep_weather.sh $show_fahrenheit $show_location $fixed_location &
   fi
 
   # Set timezone unless hidden by configuration
@@ -160,10 +161,15 @@ main()
       script="#($current_dir/network.sh)"
     fi
 
-    if [ $plugin = "network-bandwith" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-network-bandwith-colors" "cyan dark_gray")
+    if [ $plugin = "network-bandwidth" ]; then
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-network-bandwidth-colors" "cyan dark_gray")
       tmux set-option -g status-right-length 250
-      script="#($current_dir/network_bandwith.sh)"
+      script="#($current_dir/network_bandwidth.sh)"
+    fi
+
+    if [ $plugin = "network-ping" ]; then
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@dracula-network-ping-colors" "cyan dark_gray")
+      script="#($current_dir/network_ping.sh)"
     fi
 
     if [ $plugin = "weather" ]; then
