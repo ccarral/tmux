@@ -26,15 +26,18 @@ main()
   IFS=' ' read -r -a plugins <<< $(get_tmux_option "@dracula-plugins" "battery network ram-usage")
 
   # Dracula Color Pallette
-  white='#f8f8f2'
+  white='#141414'
   gray='#303030'
   dark_gray='#282a36'
-  light_purple='#bd93f9'
-  dark_purple='#6272a4'
-  cyan='#8be9fd'
-  green='#50fa7b'
+  GREEN='#00a95b'
+  # light_purple=$GREEN
+  dark_purple=$GREEN
+  # cyan=$GREEN
+  # green=$GREEN
   orange='#ffb86c'
-  red='#ff5555'
+  # red='#666666'
+  red=$GREEN
+  # dark_purple=$red
   pink='#ff79c6'
   yellow='#f1fa8c'
 
@@ -132,7 +135,6 @@ main()
     fi
 
     if [ $plugin = "battery" ]; then
-      # IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-battery-colors" "pink dark_gray")
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-battery-colors" "red dark_gray")
       script="#($current_dir/battery.sh)"
     fi
